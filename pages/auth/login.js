@@ -1,9 +1,7 @@
-import { Grid } from "../../components";
+import { LoginForm } from "../../widgets";
 
 export default function Login(){
   return (
-  <Grid>
-    
-  </Grid>
+  <LoginForm/>
   )
 }

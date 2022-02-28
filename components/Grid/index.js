@@ -2,6 +2,8 @@ import styled from "styled-components"
 
 const StyledGrid = styled.div`
   width: ${({width}) => width ? width : 'auto'};
+  height: ${({height}) => height ? height : 'auto'};
+  
   border: ${({border}) => border ? border : '0'};
   border-radius: ${({borderRadius}) => borderRadius ? borderRadius : '0'};
   
@@ -35,6 +37,7 @@ export const Grid = (props) => {
   return (
   <StyledGrid
     width={props.width}
+    height={props.height}
     border={props.border}
     borderRadius={props.borderRadius}
     
