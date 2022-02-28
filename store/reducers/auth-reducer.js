@@ -8,6 +8,7 @@ const initialState = {
     }
   },
   user: {},
+  token: '',
   loggedIn: false
 }
 
@@ -26,6 +27,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     case authAction.LOGIN.SUCCESS:
+      localStorage.setItem('token', action.payload.data.token);
       return {
         ...state,
         status: {
@@ -35,7 +37,10 @@ export const authReducer = (state = initialState, action) => {
             ...state.status.error,
             message: ''
           }
-        }
+        },
+        user: action.payload.data.user,
+        token: action.payload.data.token,
+        loggedIn: true
       };
     case authAction.LOGIN.FAIL:
       return {
