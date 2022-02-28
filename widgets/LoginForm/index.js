@@ -1,5 +1,7 @@
+import { useDispatch } from "react-redux";
 import { Form, TextField, Button, Grid } from "../../components"
 import { useForm } from "../../hooks";
+import { authAction } from "../../store";
 
 const initialFormValues = {
   email: '',
@@ -8,15 +10,17 @@ const initialFormValues = {
 
 export const LoginForm = () => {
   const {
-    values,
+    values: credentials,
     handleChange,
-    
+    clear
   } = useForm(initialFormValues);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    
-    
+    dispatch(authAction.login(credentials))
+    clear()
   }
 
   return (
@@ -39,7 +43,7 @@ export const LoginForm = () => {
         <TextField
           type="email"
           name="email"
-          value={values.email}
+          value={credentials.email}
           onChange={handleChange}
           placeholder="Email"
         />
@@ -47,7 +51,7 @@ export const LoginForm = () => {
         <TextField
           type="password"
           name="password"
-          value={values.password}
+          value={credentials.password}
           onChange={handleChange}
           placeholder="Password"
         />
@@ -56,6 +60,7 @@ export const LoginForm = () => {
           type="submit"
           text="Submit"
         />
+        
       </Grid>
     </Grid>
   </Form>

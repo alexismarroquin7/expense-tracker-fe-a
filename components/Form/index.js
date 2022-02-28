@@ -8,6 +8,7 @@ export const Form = (props) => {
   return (
   <StyledForm
     border={props.border}
+    onSubmit={props.onSubmit ? props.onSubmit : (e) => {e.preventDefault()}}
   >
     {props.children}
   </StyledForm>
