@@ -1,6 +1,5 @@
 import { transactionAction } from "../actions";
 
-
 const initialState = {
   status: {
     loading: false,
@@ -16,17 +15,36 @@ export const transactionReducer = (state = initialState, action) => {
     case transactionAction.FIND.BY.USER.ID.START:
       return {
         ...state,
-        loading: true
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            message: ''
+          }
+        }
       };
     case transactionAction.FIND.BY.USER.ID.SUCCESS:
       return {
         ...state,
-        loading: false
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            message: ''
+          }
+        },
+        list: action.payload.transactions
       };
     case transactionAction.FIND.BY.USER.ID.FAIL:
       return {
         ...state,
-        loading: false
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            message: action.payload.error.message
+          }
+        }
       };
     default:
       return state;

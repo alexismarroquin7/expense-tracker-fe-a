@@ -25,6 +25,8 @@ const StyledSection = styled.section`
   transition: ${({transition}) => transition ? transition : 'none'};
   
   overflow: ${({overflow}) => overflow ? overflow : 'visible'};
+
+  gap: ${({gap}) => gap ? gap : '0'};
 `
 
 export const Section = (props) => {
@@ -49,6 +51,8 @@ export const Section = (props) => {
     overflow={props.overflow}
 
     id={props.id || ''}
+
+    gap={props.gap}
   >
     {props.children}
   </StyledSection>

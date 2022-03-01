@@ -23,12 +23,22 @@ const findByUserId = (user_id) => async dispatch => {
     const res = await axiosWithAuth().get(`/transactions?user_id=${user_id}`);
     
     dispatch({
-      type: ACTION.FIND.BY.USER.ID.SUCCESS
+      type: ACTION.FIND.BY.USER.ID.SUCCESS,
+      payload: {
+        transactions: res.data
+      }
     })
     
   } catch (err) {
     dispatch({
-      type: ACTION.FIND.BY.USER.ID.FAIL
+      type: ACTION.FIND.BY.USER.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message
+          ? err.response.data.message
+          : 'an error occured'
+        }
+      }
     })
 
   }
