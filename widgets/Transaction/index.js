@@ -1,11 +1,10 @@
-
 import { Grid } from "../../components";
 import { useToggle } from "../../hooks";
 import { Tag } from "..";
 
 export const Transaction = ({transaction}) => {
   const {active: open, toggle: toggleOpen} = useToggle();
-  
+
   const handleOpen = e => {
     e.stopPropagation();
     toggleOpen();
@@ -13,7 +12,7 @@ export const Transaction = ({transaction}) => {
 
   return (
   <Grid
-    border="1px solid black"
+    border=".2rem solid black"
     borderRadius="10px"
     padding="2rem"
     width="100%"
@@ -24,10 +23,26 @@ export const Transaction = ({transaction}) => {
       alignItems="center"
       justify="space-between"
     >
-      <h6>{transaction.name}</h6>
+      
+      {/* DATE */}
+      <p>
+        {transaction.date_month < 10 
+        ? `0${transaction.date_month}`
+        : transaction.date_month}
+        {' / '}
+        {transaction.date_day < 10 
+        ? `0${transaction.date_day}`
+        : transaction.date_day}
+        {' / '}
+        {transaction.date_year}
+      </p>
+      
+      
+
       <button
         onClick={handleOpen}
       >{open ? '-' : '+'}</button>
+    
     </Grid>
 
     <Grid
@@ -35,15 +50,8 @@ export const Transaction = ({transaction}) => {
       alignItems="center"
       justify="space-between"
     >
-    
-      <div
-        style={{
-          padding: ".2rem 2rem",
-          backgroundColor: /deposit/i.test(transaction.transaction_type.name)
-          ? 'green'
-          : 'red'
-        }}
-      ></div>
+      
+      <h6>{transaction.name}</h6>
 
       <p
         style={{
@@ -58,6 +66,28 @@ export const Transaction = ({transaction}) => {
 
         ${transaction.amount.toFixed(2)}
       </p>
+    </Grid>
+
+    <Grid
+      width="100%"
+      alignItems="center"
+      justify="space-between"
+    >
+    
+      <div
+        style={{
+          transition: ".5s",
+          width: open 
+          ? '100%'
+          : '5%',
+          padding: ".2rem",
+          backgroundColor: /deposit/i.test(transaction.transaction_type.name)
+          ? 'green'
+          : 'red'
+        }}
+      ></div>
+
+      
     
     </Grid>
     
@@ -69,6 +99,8 @@ export const Transaction = ({transaction}) => {
           alignItems="flex-start"
           justify="space-between"
           gap="4rem"
+          transition=".5s"
+
         >
 
           <Grid
@@ -112,6 +144,13 @@ export const Transaction = ({transaction}) => {
               })}
             </Grid>
 
+          </Grid>
+
+          <Grid
+            width="100%"
+            gap="1rem"
+          >
+            <button>Edit</button>
           </Grid>
 
         </Grid>

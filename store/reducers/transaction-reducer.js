@@ -7,7 +7,11 @@ const initialState = {
       message: ''
     }
   },
-  list: []
+  list: [],
+  filters: {
+    sortBy: 'date',
+    dir: 'asc'
+  }
 }
 
 export const transactionReducer = (state = initialState, action) => {

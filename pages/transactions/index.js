@@ -1,20 +1,21 @@
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Grid, Section } from "../../components";
 import { transactionAction } from "../../store/actions";
-import { Transaction } from "../../widgets";
+import { Transaction, SearchBar } from "../../widgets";
 
-const calcBalance = (list) => {
-  return list.reduce((acc, curr) => {
+// const calcBalance = (list) => {
+//   return list.reduce((acc, curr) => {
     
-    /deposit/i.test(curr.transaction_type.name)
-    ? acc += curr.amount
-    : acc -= curr.amount
+//     /deposit/i.test(curr.transaction_type.name)
+//     ? acc += curr.amount
+//     : acc -= curr.amount
 
-    return acc;
-  }, 0)
-}
+//     return acc;
+//   }, 0)
+// }
 
 export default function Transactions(){
   
@@ -22,6 +23,7 @@ export default function Transactions(){
   
   const { user } = useSelector(s => s.auth);
   const transaction = useSelector(s => s.transaction);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(transactionAction.findByUserId(user.user_id));
@@ -37,10 +39,14 @@ export default function Transactions(){
       alignItems="center"
     >
       <h3>Transactions</h3>
-      <button>New</button>
+      <button
+        onClick={() => {
+          router.push('/transactions/new');
+        }}
+      >New</button>
     </Grid>
     
-    <Grid
+    {/* <Grid
       width="90%"
       justify="space-between"
       alignItems="center"
@@ -55,7 +61,9 @@ export default function Transactions(){
           }}
         >${calcBalance(transaction.list)}</h6>
       )}
-    </Grid>
+    </Grid> */}
+
+    {/* <SearchBar/> */}
     
     <Grid
       width="90%"

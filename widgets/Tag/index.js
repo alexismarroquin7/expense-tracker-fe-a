@@ -7,13 +7,7 @@ export const Tag = ({tag}) => {
       style={{
         color: "blue"
       }}
-    >#</p>
-    <p
-      style={{
-        color: "blue",
-        textDecoration: "underline"
-      }}
-    >{tag.text}</p>
+    >#{tag.text}</p>
   </Grid>
   )
 }
