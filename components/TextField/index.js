@@ -2,11 +2,13 @@ import styled from "styled-components"
 
 const StyledTextField = styled.input.attrs(({ 
   type = 'text',
-  placeholder = null
+  placeholder = null,
+  value
 }) => {
   return {
     type,
-    placeholder
+    placeholder,
+    value
   }
 })`
   

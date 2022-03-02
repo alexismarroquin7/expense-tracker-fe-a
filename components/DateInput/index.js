@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 const StyledDateInput = styled.input.attrs(({ 
-  type = 'text',
+  type = "date",
   placeholder = null
 }) => {
   return {
@@ -19,7 +19,6 @@ export const DateInput = ({
   value
 }) => {
   return <StyledDateInput
-    type="date"
     placeholder={placeholder}
     onChange={onChange}
     name={name}
