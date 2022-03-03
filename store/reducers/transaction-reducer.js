@@ -23,6 +23,7 @@ export const transactionReducer = (state = initialState, action) => {
           ...state.status,
           loading: true,
           error: {
+            ...state.status.error,
             message: ''
           }
         }
@@ -34,6 +35,7 @@ export const transactionReducer = (state = initialState, action) => {
           ...state.status,
           loading: false,
           error: {
+            ...state.status.error,
             message: ''
           }
         },
@@ -46,7 +48,54 @@ export const transactionReducer = (state = initialState, action) => {
           ...state.status,
           loading: false,
           error: {
+            ...state.status.error,
             message: action.payload.error.message
+          }
+        }
+      };
+    case transactionAction.CREATE.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+
+          }
+        }
+      };
+    case transactionAction.CREATE.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+
+          }
+        },
+        list: [
+          ...state.list,
+          action.payload.transaction
+        ]
+      };
+    case transactionAction.CREATE.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+
           }
         }
       };

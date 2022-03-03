@@ -1,9 +1,10 @@
 import { useRouter } from "next/router"
 import { Border, Button, DateInput, Grid, Label, Section, TextArea, TextField } from "../../components"
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useToggle } from "../../hooks";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { transactionAction } from "../../store";
+
 const options = {
   transaction_types: [
     {
@@ -12,13 +13,23 @@ const options = {
     },
     {
       id: uuidv4(),
-      name: 'Widthdrawl'
+      name: 'Withdrawl'
     }
   ],
   tags: []
 }
 
-const getDate = () => {
+const parseDateFromString = (dateString) => {
+  const dateArr = dateString.split('-');
+  
+  return {
+    year: Number(dateArr[0]),
+    month: Number(dateArr[1]),
+    day: Number(dateArr[2])
+  }
+}
+
+const getCurrentDate = () => {
   const d = new Date();
   
   
@@ -36,7 +47,7 @@ const initialFormValues = {
   name: '',
   description: '',
   type: '',
-  date: getDate(),
+  date: getCurrentDate(),
   amount: '',
   tag: '',
   tags: [],
@@ -47,7 +58,12 @@ export default function NewTransaction(){
   
   const router = useRouter();
   const [values, setValues] = useState(initialFormValues)
-  
+  const dispatch = useDispatch();
+
+  const transaction = useSelector(s => s.transaction);
+
+  const transactionListLengthRef = useRef(transaction.list.length);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -59,8 +75,54 @@ export default function NewTransaction(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
+    const valid = () => {
+      let passedValidation;
+
+      if(
+        values.type !== '' &&
+        values.name !== '' &&
+        /^\$?[0-9]+(\.[0-9][0-9])?$/.test(values.amount) &&
+        values.date !== ''
+      ){
+        passedValidation = true;
+      } else {
+        passedValidation = false;
+      }
+
+      return passedValidation;
+    }
+
+    if(!valid()) return;
+    
+    dispatch(transactionAction.create({
+      
+      name: values.name,
+      
+      description: values.description.length > 0
+      ? values.description
+      : null,
+      
+      amount: Number(values.amount),
+
+      date: {
+        ...parseDateFromString(values.date)
+      },
+      
+      type: values.type,
+
+      tags: values.tags
+
+    }));
+  
   }
+
+  useEffect(() => {
+    if(transaction.list.length > transactionListLengthRef.current){
+      setTimeout(() => {
+        router.push('/transactions')
+      }, 2000)
+    }
+  }, [router, transaction.list.length])
 
   return (
   <Section>
@@ -141,6 +203,7 @@ export default function NewTransaction(){
             name="name"
             value={values.name}
             onChange={handleChange}
+            autoComplete="off"
           />
         </Label>
 
@@ -205,7 +268,6 @@ export default function NewTransaction(){
                 name={"tag"}
                 value={values.tag}
                 onChange={handleChange}
-                
                 autoComplete="off"
               />
               <Button
