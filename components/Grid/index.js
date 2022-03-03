@@ -62,6 +62,8 @@ export const Grid = (props) => {
 
     transition={props.transition}
     overflow={props.overflow}
+    onBlur={props.onBlur}
+    onFocus={props.onFocus}
   >{props.children}</StyledGrid>
   )
 }

@@ -61,4 +61,10 @@ export const theme = {
 
 export const GlobalStyles = createGlobalStyle`
   /* add global styles here */
+  input,
+  textarea,
+  label,
+  button {
+    font-size: 2rem;
+  }
 `

@@ -3,10 +3,13 @@ import styled from "styled-components"
 const StyledButton = styled.button``
 
 export const Button = ({
-  text = null
+  text = null,
+  onClick = () => {}
 }) => {
   return (
-  <StyledButton>
+  <StyledButton
+    onClick={onClick}
+  >
     {text}
   </StyledButton>
   )
