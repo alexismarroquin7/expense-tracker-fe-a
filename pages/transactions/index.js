@@ -4,18 +4,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Grid, Section } from "../../components";
 import { transactionAction } from "../../store/actions";
-import { Transaction, SearchBar } from "../../widgets";
-
-// const calcBalance = (list) => {
-//   return list.reduce((acc, curr) => {
-    
-//     /deposit/i.test(curr.transaction_type.name)
-//     ? acc += curr.amount
-//     : acc -= curr.amount
-
-//     return acc;
-//   }, 0)
-// }
+import { Transaction } from "../../widgets";
 
 export default function Transactions(){
   
@@ -45,25 +34,6 @@ export default function Transactions(){
         }}
       >New</button>
     </Grid>
-    
-    {/* <Grid
-      width="90%"
-      justify="space-between"
-      alignItems="center"
-    >
-      <h5>Balance</h5>
-      {transaction.list.length > 0 && (
-        <h6
-          style={{
-            color: calcBalance(transaction.list) > 0
-            ? 'green'
-            : 'red'
-          }}
-        >${calcBalance(transaction.list)}</h6>
-      )}
-    </Grid> */}
-
-    {/* <SearchBar/> */}
     
     <Grid
       width="90%"
