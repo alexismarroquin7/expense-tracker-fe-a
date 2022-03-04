@@ -53,6 +53,7 @@ export const transactionReducer = (state = initialState, action) => {
           }
         }
       };
+    
     case transactionAction.CREATE.START:
       return {
         ...state,
@@ -99,6 +100,49 @@ export const transactionReducer = (state = initialState, action) => {
           }
         }
       };
+    
+    case transactionAction.DELETE.BY.TRANSACTION.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
+    case transactionAction.DELETE.BY.TRANSACTION.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        list: [
+          ...state.list.filter(tran => (
+            tran.transaction_id !== action.payload.transaction.transaction_id
+          ))
+        ]
+      };
+    case transactionAction.DELETE.BY.TRANSACTION.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      };
+    
     default:
       return state;
   }
