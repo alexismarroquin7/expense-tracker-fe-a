@@ -1,8 +1,8 @@
-import { Grid } from "../../components";
+import { Button, Grid } from "../../components";
 import { useToggle } from "../../hooks";
 import { Tag } from "..";
 
-export const Transaction = ({transaction}) => {
+export const Transaction = ({ transaction, toggleDeleteModal }) => {
   const {active: open, toggle: toggleOpen} = useToggle();
 
   const handleOpen = e => {
@@ -150,7 +150,15 @@ export const Transaction = ({transaction}) => {
             width="100%"
             gap="1rem"
           >
-            <button>Edit</button>
+            <Button
+              text="Edit"
+            />
+            <Button
+              text="Delete"
+              onClick={() => {
+                toggleDeleteModal(transaction.transaction_id);
+              }}
+            />
           </Grid>
 
         </Grid>
