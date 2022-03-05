@@ -1,4 +1,4 @@
-import { authAction } from "..";
+import { authAction } from "../actions";
 
 const initialState = {
   status: {

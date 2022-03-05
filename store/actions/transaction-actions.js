@@ -115,9 +115,14 @@ const deleteByTransactionId = (transaction_id) => async dispatch => {
   }
 }
 
+const findById = (transaction_id) => async dispatch => {
+  
+}
+
 export const transactionAction = {
   ...ACTION,
   findByUserId,
   create,
-  deleteByTransactionId
+  deleteByTransactionId,
+  findById
 }
