@@ -25,7 +25,25 @@ const initialValues = {
   tagTextSet: new Set()
 }
 
+const valid = (values) => {
+  let passedValidation;
+
+  if(
+    values.type !== '' &&
+    values.name !== '' &&
+    /^\$?[0-9]+(\.[0-9][0-9])?$/.test(values.amount) &&
+    values.date !== ''
+  ){
+    passedValidation = true;
+  } else {
+    passedValidation = false;
+  }
+
+  return passedValidation;
+}
+
 export const transactionForm = {
   initialValues,
-  options
+  options,
+  valid
 }

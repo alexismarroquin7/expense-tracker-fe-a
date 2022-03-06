@@ -1,6 +1,8 @@
 import { Grid, Label, Border, DateInput, TextField, TextArea, Button } from "../../components";
 import { v4 as uuidv4 } from "uuid";
 
+import { transactionForm } from "../../utils";
+
 export const TransactionForm = ({
   initialValues,
   values,
@@ -34,7 +36,7 @@ export const TransactionForm = ({
           direction="column wrap"
           gap="2rem"
         >
-          {options.transaction_types.map(type => (
+          {transactionForm.options.transaction_types.map(type => (
             <Label
               key={type.transaction_type_id}
               alignItems="center"
@@ -200,7 +202,12 @@ export const TransactionForm = ({
                   values.tagTextSet.delete(tag.text);
                   setValues({
                     ...values,
-                    tags: values.tags.filter(valTag => valTag.tag_id !== tag.tag_id)
+                    tags: values.tags
+                    .filter(valTag => valTag.tag_id !== tag.tag_id)
+                    .map((valTag, i) => {
+                      valTag.index = i
+                      return valTag;
+                    })
                   })
                 }}
               >x</p>

@@ -36,24 +36,9 @@ export default function NewTransaction(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const valid = () => {
-      let passedValidation;
+    
 
-      if(
-        values.type !== '' &&
-        values.name !== '' &&
-        /^\$?[0-9]+(\.[0-9][0-9])?$/.test(values.amount) &&
-        values.date !== ''
-      ){
-        passedValidation = true;
-      } else {
-        passedValidation = false;
-      }
-
-      return passedValidation;
-    }
-
-    if(!valid()) return;
+    if(!transactionForm.valid(values)) return;
     
     dispatch(transactionAction.create({
       
@@ -97,7 +82,6 @@ export default function NewTransaction(){
       setValues={setValues}
       onChange={handleChange}
       onSubmit={handleSubmit}
-      options={transactionForm.options}
       actionArea={() => (
         <Grid
           gap="2rem"
