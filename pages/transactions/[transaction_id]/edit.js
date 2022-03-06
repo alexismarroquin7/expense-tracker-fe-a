@@ -56,6 +56,10 @@ export default function EditTransaction(){
 
       tags: values.tags
     }));
+
+    setTimeout(() => {
+      router.push(`/transactions`)
+    }, 1500);
   }
 
   useEffect(() => {
@@ -108,13 +112,13 @@ export default function EditTransaction(){
             onClick={(e) => {
               e.preventDefault();
               setValues(transactionForm.initialValues);
-              // router.push(`/transactions/${router.query.transaction_id}`);
               router.push(`/transactions`);
             }}
             text="Cancel"
           />
           
           <Button
+            type="submit"
             text="Save"
           />
         

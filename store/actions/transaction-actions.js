@@ -162,22 +162,29 @@ const findById = (transaction_id) => async dispatch => {
 }
 
 const updateById = (transaction_id, changes) => async dispatch => {
-  console.log('changes', changes)
   dispatch({
     type: ACTION.UPDATE.BY.TRANSACTION.ID.START 
   })
 
   try {
     const res = await axiosWithAuth().put(`/transactions/${transaction_id}`, changes);
-    console.log(res);
     dispatch({
-      type: ACTION.UPDATE.BY.TRANSACTION.ID.SUCCESS
+      type: ACTION.UPDATE.BY.TRANSACTION.ID.SUCCESS,
+      payload: {
+        transaction: res.data
+      }
     })
 
   } catch (err) {
-    console.log(err);
     dispatch({
-      type: ACTION.UPDATE.BY.TRANSACTION.ID.FAIL
+      type: ACTION.UPDATE.BY.TRANSACTION.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response
+          ? err.response.data.message
+          : 'an error occured'
+        }
+      }
     })
   }
 }
