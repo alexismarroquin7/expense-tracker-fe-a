@@ -9,6 +9,13 @@ const ACTION = {
           SUCCESS: "TRANSACTION__FIND__BY__USER__ID--SUCCESS",
           FAIL: "TRANSACTION__FIND__BY__USER__ID--FAIL"
         }
+      },
+      TRANSACTION: {
+        ID: {
+          START: "TRANSACTION__FIND__BY__TRANSACTION__ID--START",
+          SUCCESS: "TRANSACTION__FIND__BY__TRANSACTION__ID--SUCCESS",
+          FAIL: "TRANSACTION__FIND__BY__TRANSACTION__ID--FAIL"
+        }
       }
     }
   },
@@ -24,6 +31,17 @@ const ACTION = {
           START: "TRANSACTION__DELETE__BY__TRANSACTION__ID--START",
           SUCCESS: "TRANSACTION__DELETE__BY__TRANSACTION__ID--SUCCESS",
           FAIL: "TRANSACTION__DELETE__BY__TRANSACTION__ID--FAIL"
+        }
+      }
+    }
+  },
+  UPDATE: {
+    BY: {
+      TRANSACTION: {
+        ID: {
+          START: "TRANSACTION__UPDATE__BY__TRANSACTION__ID--START",
+          SUCCESS: "TRANSACTION__UPDATE__BY__TRANSACTION__ID--SUCCESS",
+          FAIL: "TRANSACTION__UPDATE__BY__TRANSACTION__ID--FAIL"
         }
       }
     }
@@ -50,7 +68,7 @@ const findByUserId = (user_id) => async dispatch => {
       type: ACTION.FIND.BY.USER.ID.FAIL,
       payload: {
         error: {
-          message: err.response.data.message
+          message: err.response
           ? err.response.data.message
           : 'an error occured'
         }
@@ -79,7 +97,7 @@ const create = (transaction) => async dispatch => {
       type: ACTION.CREATE.FAIL,
       payload: {
         error: {
-          message: err.response.data.message
+          message: err.response
           ? err.response.data.message
           : 'an error occured'
         }
@@ -106,7 +124,7 @@ const deleteByTransactionId = (transaction_id) => async dispatch => {
       type: ACTION.DELETE.BY.TRANSACTION.ID.FAIL,
       payload: {
         error: {
-          message: err.response.data.message
+          message: err.response
           ? err.response.data.message
           : 'an error occured'
         }
@@ -115,9 +133,67 @@ const deleteByTransactionId = (transaction_id) => async dispatch => {
   }
 }
 
+const findById = (transaction_id) => async dispatch => {
+  
+  dispatch({
+    type: ACTION.FIND.BY.TRANSACTION.ID.START
+  });
+  
+  try {
+    const res = await axiosWithAuth().get(`/transactions/${transaction_id}`);
+    dispatch({
+      type: ACTION.FIND.BY.TRANSACTION.ID.SUCCESS,
+      payload: {
+        transaction: res.data
+      }
+    });
+  } catch (err) {
+    dispatch({
+      type: ACTION.FIND.BY.TRANSACTION.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response
+          ? err.response.data.message
+          : 'an error occured'
+        }
+      }
+    });
+  }
+}
+
+const updateById = (transaction_id, changes) => async dispatch => {
+  dispatch({
+    type: ACTION.UPDATE.BY.TRANSACTION.ID.START 
+  })
+
+  try {
+    const res = await axiosWithAuth().put(`/transactions/${transaction_id}`, changes);
+    dispatch({
+      type: ACTION.UPDATE.BY.TRANSACTION.ID.SUCCESS,
+      payload: {
+        transaction: res.data
+      }
+    })
+
+  } catch (err) {
+    dispatch({
+      type: ACTION.UPDATE.BY.TRANSACTION.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response
+          ? err.response.data.message
+          : 'an error occured'
+        }
+      }
+    })
+  }
+}
+
 export const transactionAction = {
   ...ACTION,
   findByUserId,
   create,
-  deleteByTransactionId
+  deleteByTransactionId,
+  findById,
+  updateById
 }

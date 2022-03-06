@@ -8,6 +8,7 @@ const initialState = {
     }
   },
   list: [],
+  item: {},
   filters: {
     sortBy: 'date',
     dir: 'asc'
@@ -131,6 +132,88 @@ export const transactionReducer = (state = initialState, action) => {
         ]
       };
     case transactionAction.DELETE.BY.TRANSACTION.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      };
+    
+    case transactionAction.FIND.BY.TRANSACTION.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {}
+      };
+    case transactionAction.FIND.BY.TRANSACTION.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {
+          ...action.payload.transaction
+        }
+      };
+    case transactionAction.FIND.BY.TRANSACTION.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      };
+    
+    case transactionAction.UPDATE.BY.TRANSACTION.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {}
+      };
+    case transactionAction.UPDATE.BY.TRANSACTION.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {
+          ...action.payload.transaction
+        }
+      };
+    case transactionAction.UPDATE.BY.TRANSACTION.ID.FAIL:
       return {
         ...state,
         status: {

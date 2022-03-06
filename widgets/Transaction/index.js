@@ -1,9 +1,15 @@
 import { Button, Grid } from "../../components";
 import { useToggle } from "../../hooks";
 import { Tag } from "..";
+import { useRouter } from "next/router";
 
 export const Transaction = ({ transaction, toggleDeleteModal }) => {
-  const {active: open, toggle: toggleOpen} = useToggle();
+  const {
+    active: open,
+    toggle: toggleOpen
+  } = useToggle();
+
+  const router = useRouter();
 
   const handleOpen = e => {
     e.stopPropagation();
@@ -152,6 +158,9 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
           >
             <Button
               text="Edit"
+              onClick={() => {
+                router.push(`/transactions/${transaction.transaction_id}/edit`)
+              }}
             />
             <Button
               text="Delete"
