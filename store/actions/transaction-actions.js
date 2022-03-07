@@ -194,11 +194,11 @@ const updateById = (transaction_id, changes) => async dispatch => {
   }
 }
 
-const setQuery = (key, value) => {
+const setQuery = (query) => {
   return {
     type: ACTION.SET_QUERY,
     payload: {
-      key, value
+      query
     }
   }
 }

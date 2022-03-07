@@ -9,7 +9,7 @@ const initialState = {
   },
   list: [],
   item: {},
-  queries: {
+  query: {
     sortBy: 'date',
     dir: 'desc',
     search: ''
@@ -229,9 +229,9 @@ export const transactionReducer = (state = initialState, action) => {
     case transactionAction.SET_QUERY:
       return {
         ...state,
-        queries: {
-          ...state.queries,
-          [action.payload.key]: action.payload.value
+        query: {
+          ...state.query,
+          ...action.payload.query
         }
       }
     default:

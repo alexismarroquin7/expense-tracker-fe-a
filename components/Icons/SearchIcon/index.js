@@ -22,12 +22,18 @@ const StyledSearchIcon = styled.div`
     transform-origin: top right;
     transform: rotate(45deg) translate(.7rem, -.3rem);
   }
+
+  button {
+    opacity: 0;
+    display: hidden;
+  }
 `
 
 export const SearchIcon = ({
   width,
   border,
-  onClick
+  onClick,
+  type
 }) => {
   return (
   <StyledSearchIcon
@@ -35,6 +41,9 @@ export const SearchIcon = ({
     width={width}
     border={border}
   >
+    <button
+      type={type ? type : "submit"}
+    ></button>
     <div
       className="search_icon__circle"
       ></div>

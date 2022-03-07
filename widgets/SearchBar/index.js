@@ -1,9 +1,10 @@
 import { Grid, TextField } from "../../components"
 import { SearchIcon } from "../../components/Icons/SearchIcon"
 import { v4 as uuidV4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { transactionAction } from "../../store";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const options = {
   sortBy: [
@@ -27,31 +28,88 @@ const options = {
   ]
 }
 
+const createQuery = (queryObj) => {
+  let query = '?';
+    
+  if(queryObj.search){
+    const searchQuery = `${query.length > 1 ? '&': ''}search=${queryObj.search.replace(' ', '+')}`;
+    query += searchQuery;
+  
+  }
+  
+  if(queryObj.sortBy){
+    const sortByQuery = `${query.length > 1 ? '&': ''}sortBy=${queryObj.sortBy}`;      
+    query += sortByQuery;
+
+  }
+  
+  if(queryObj.dir){
+    const dirQuery = `${query.length > 1 ? '&': ''}dir=${queryObj.dir}`;
+    query += dirQuery;
+
+  }
+
+  return query;
+}
 
 export const SearchBar = () => {
   const router = useRouter();
+
+  const transaction = useSelector(s => s.transaction);
   const dispatch = useDispatch();
+
+  const [search, setSearch] = useState(() => transaction.query.search ? transaction.query.search.replace('+', ' ') : '');
+  
+  useEffect(() => {
+    dispatch(transactionAction.setQuery({
+      search: router.query.search 
+      ? router.query.search
+      : '',
+      sortBy: router.query.sortBy 
+      ? router.query.sortBy
+      : '',
+      dir: router.query.dir
+      ? router.query.dir
+      : ''
+    }))    
+  }, [dispatch, router, router.query.search, router.query.sortBy, router.query.dir])
+
+  useEffect(() => {
+    setSearch(router.query.search)
+  }, [router.query.search])
   
   const handleChange = e => {
     const { name, value } = e.target;
     
-    router.query[name] = value;
-    
-    dispatch(transactionAction.setQuery(name, value))
-    
-    if(router.query.sortBy && router.query.dir){
-      router.push(`/transactions?sortBy=${router.query.sortBy}&dir=${router.query.dir}`)
-    
-    } else if(router.query.sortBy && !router.query.dir){
-      router.push(`/transactions?sortBy=${router.query.sortBy}`)
-      
-    } else if(!router.query.sortBy && router.query.dir){
-      router.push(`/transactions?dir=${router.query.dir}`)
-    
+    if(name==='search'){
+      setSearch(value)
     } else {
-      router.push(`/transactions`)
-
+      router.query[name] = value;
+        dispatch(transactionAction.setQuery({
+        search: router.query.search 
+        ? router.query.search
+        : '',
+        sortBy: router.query.sortBy 
+        ? router.query.sortBy
+        : '',
+        dir: router.query.dir
+        ? router.query.dir
+        : ''
+      }))    
     }
+
+  
+    const queryToUse = createQuery(router.query);
+    router.push(`/transactions${queryToUse.length > 1 ? queryToUse : ''}`);
+    
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    router.query.search = search.replace(' ', '+')
+
+    const queryToUse = createQuery(router.query);
+    router.push(`/transactions${queryToUse.length > 1 ? queryToUse : ''}`);
   }
 
   return (
@@ -59,21 +117,30 @@ export const SearchBar = () => {
     direction="column wrap"
     gap="2rem"
   >
-    <Grid
-      width="90vw"
-      justify="space-between"
-      alignItems="center"
+    <form
+      onSubmit={handleSubmit}
     >
-      <TextField
-        width="90%"
-        padding="1rem"
-        placeholder="Search by name"
-      />
-      <SearchIcon
-        width={"10%"}
-        border="1px solid black"
-      />
-    </Grid>
+      <Grid
+        width="90vw"
+        justify="space-between"
+        alignItems="center"
+      >
+        <TextField
+          width="90%"
+          padding="1rem"
+          placeholder="Search by name"
+          name="search"
+          value={search}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        <SearchIcon
+          width={"10%"}
+          border="1px solid black"
+          onClick={handleSubmit}
+        />
+      </Grid>
+    </form>
 
     <Grid
       width="100%"
@@ -91,7 +158,7 @@ export const SearchBar = () => {
         
         <select
           name="sortBy"
-          value={router.query.sortBy}
+          value={transaction.query.sortBy}
           onChange={handleChange}
         >
           {options.sortBy.map((sortByType) => {
@@ -114,7 +181,7 @@ export const SearchBar = () => {
         <p>Order:</p>
         <select
           name={"dir"}
-          value={router.query.dir}
+          value={transaction.query.dir}
           onChange={handleChange}
         >
           {options.order.map(orderType => {
