@@ -18,7 +18,7 @@ const StyledGrid = styled.div`
   
   padding: ${({padding}) => padding ? padding : '0'};
 
-  background-color: ${({bgColor}) => bgColor ? bgColor : 'none'};
+  background-color: ${({bgColor}) => bgColor ? bgColor : 'auto'};
   color: ${({color}) => color ? color : 'none'};
 
   position: ${({position}) => position ? position : 'static'};

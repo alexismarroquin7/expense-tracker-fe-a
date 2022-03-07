@@ -13,7 +13,8 @@ const StyledTextField = styled.input.attrs(({
     autoComplete
   }
 })`
-  
+  width: ${({width}) => width ? width : 'auto'};
+  padding: ${({padding}) => padding ? padding : '0'};
 `
 
 export const TextField = ({
@@ -24,7 +25,9 @@ export const TextField = ({
   value,
   onFocus,
   onBlur,
-  autoComplete
+  autoComplete,
+  padding,
+  width
 }) => {
   return <StyledTextField
     type={type}
@@ -35,5 +38,7 @@ export const TextField = ({
     name={name}
     value={value}
     autoComplete={autoComplete}
+    padding={padding}
+    width={width}
   ></StyledTextField>
 }

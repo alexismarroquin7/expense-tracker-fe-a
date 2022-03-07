@@ -10,7 +10,7 @@ import { transactionAction } from "../../store";
 
 // components
 import { Button, Grid, Section } from "../../components";
-import { Transaction } from "../../widgets";
+import { SearchBar, Transaction } from "../../widgets";
 
 const initialTransactionToDelete = null;
 
@@ -19,8 +19,25 @@ export default function Transactions(){
   const dispatch = useDispatch();
   
   const { user } = useSelector(s => s.auth);
-  const transaction = useSelector(s => s.transaction);
+  
+  const transaction = useSelector(s => {
+    let stateToUse = {
+      query: s.transaction.query,
+    }
+
+    if(s.transaction.query.search){
+      const re = new RegExp(s.transaction.query.search, 'i');
+      stateToUse.list = s.transaction.list.filter(trx => re.test(trx.name));
+      
+    } else {
+      stateToUse.list = s.transaction.list;
+    }
+    
+    return stateToUse;
+  });
+  
   const router = useRouter();
+  
   const { 
     active: deleteTransactionModalActive,
     toggle: toggleDeleteTransactionModalActive
@@ -29,8 +46,12 @@ export default function Transactions(){
   const [transactionToDelete, setTransactionToDelete] = useState(initialTransactionToDelete);
 
   useEffect(() => {
-    dispatch(transactionAction.findByUserId(user.user_id));
-  }, [dispatch, user.user_id]);
+    dispatch(transactionAction.findByUserId(user.user_id, {
+      sortBy: router.query.sortBy || 'date',
+      dir: router.query.dir || 'desc'
+    }));
+  }, [dispatch, user.user_id, router.query.sortBy, router.query.dir]);
+
 
   return (
   <Section
@@ -48,6 +69,8 @@ export default function Transactions(){
         }}
       >New</button>
     </Grid>
+
+    <SearchBar/>
     
     {/* delete transaction modal */}
     {deleteTransactionModalActive && (
@@ -110,8 +133,14 @@ export default function Transactions(){
       alignItems="center"
       gap="2rem"
     >
-      {transaction.list.length > 0 && transaction.list.map(tran => (
-        <Transaction
+      <Grid
+        width="100%"
+        justify="flex-start"
+      >
+        {transaction.query.search.length > 0 && <p>results: {transaction.list.length}</p>}
+      </Grid>
+      {transaction.list.length > 0 && transaction.list.map(tran => {
+        return <Transaction
           key={tran.transaction_id}
           transaction={tran}
           toggleDeleteModal={(transaction_id) => {
@@ -119,7 +148,7 @@ export default function Transactions(){
             setTransactionToDelete(transaction_id);
           }}
         />
-      ))}
+      })}
     </Grid>
 
     

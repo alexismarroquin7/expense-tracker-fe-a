@@ -45,16 +45,21 @@ const ACTION = {
         }
       }
     }
-  }
+  },
+  SET_QUERY: 'TRANSACTION__SET__QUERY'
 }
 
-const findByUserId = (user_id) => async dispatch => {
+const findByUserId = (user_id, options) => async dispatch => {
   dispatch({
     type: ACTION.FIND.BY.USER.ID.START
   })
-  
   try {
-    const res = await axiosWithAuth().get(`/transactions?user_id=${user_id}&sortBy=date&dir=desc`);
+    
+    const sortBy = options.sortBy || 'date';
+    const dir = options.dir || 'desc';
+
+    const res = await axiosWithAuth()
+    .get(`/transactions?user_id=${user_id}&sortBy=${sortBy}&dir=${dir}`);
     
     dispatch({
       type: ACTION.FIND.BY.USER.ID.SUCCESS,
@@ -189,11 +194,21 @@ const updateById = (transaction_id, changes) => async dispatch => {
   }
 }
 
+const setQuery = (query) => {
+  return {
+    type: ACTION.SET_QUERY,
+    payload: {
+      query
+    }
+  }
+}
+
 export const transactionAction = {
   ...ACTION,
   findByUserId,
   create,
   deleteByTransactionId,
   findById,
-  updateById
+  updateById,
+  setQuery
 }

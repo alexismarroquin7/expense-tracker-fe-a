@@ -9,9 +9,10 @@ const initialState = {
   },
   list: [],
   item: {},
-  filters: {
+  query: {
     sortBy: 'date',
-    dir: 'asc'
+    dir: 'desc',
+    search: ''
   }
 }
 
@@ -225,7 +226,14 @@ export const transactionReducer = (state = initialState, action) => {
           }
         }
       };
-    
+    case transactionAction.SET_QUERY:
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          ...action.payload.query
+        }
+      }
     default:
       return state;
   }
