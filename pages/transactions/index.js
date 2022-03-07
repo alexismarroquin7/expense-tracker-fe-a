@@ -9,8 +9,8 @@ import { useToggle } from "../../hooks";
 import { transactionAction } from "../../store";
 
 // components
-import { Button, Grid, Section } from "../../components";
-import { Transaction } from "../../widgets";
+import { ArrowIcon, Button, FilterListIcon, Grid, Section } from "../../components";
+import { SearchBar, Transaction } from "../../widgets";
 
 const initialTransactionToDelete = null;
 
@@ -21,17 +21,25 @@ export default function Transactions(){
   const { user } = useSelector(s => s.auth);
   const transaction = useSelector(s => s.transaction);
   const router = useRouter();
+  
   const { 
     active: deleteTransactionModalActive,
     toggle: toggleDeleteTransactionModalActive
   } = useToggle();
-
   const [transactionToDelete, setTransactionToDelete] = useState(initialTransactionToDelete);
+  
+  useEffect(() => {
+    router.push(`/transactions?sortBy=${transaction.queries.sortBy}&dir=${transaction.queries.dir}`)
+  }, [])
 
   useEffect(() => {
-    dispatch(transactionAction.findByUserId(user.user_id));
-  }, [dispatch, user.user_id]);
+    dispatch(transactionAction.findByUserId(user.user_id, {
+      sortBy: router.query.sortBy,
+      dir: router.query.dir
+    }));
+  }, [dispatch, user.user_id, router.query.sortBy, router.query.dir]);
 
+  
   return (
   <Section
     gap="1rem"
@@ -48,6 +56,8 @@ export default function Transactions(){
         }}
       >New</button>
     </Grid>
+
+    <SearchBar/>
     
     {/* delete transaction modal */}
     {deleteTransactionModalActive && (
