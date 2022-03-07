@@ -56,7 +56,7 @@ const findByUserId = (user_id, options) => async dispatch => {
   try {
     
     const sortBy = options.sortBy || 'date';
-    const dir = options.dir || 'asc';
+    const dir = options.dir || 'desc';
 
     const res = await axiosWithAuth()
     .get(`/transactions?user_id=${user_id}&sortBy=${sortBy}&dir=${dir}`);

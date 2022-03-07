@@ -11,7 +11,8 @@ const initialState = {
   item: {},
   queries: {
     sortBy: 'date',
-    dir: 'desc'
+    dir: 'desc',
+    search: ''
   }
 }
 

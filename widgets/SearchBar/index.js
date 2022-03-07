@@ -1,10 +1,10 @@
-import { Button, DateInput, Grid, Label, TextField } from "../../components"
+import { Grid, TextField } from "../../components"
 import { SearchIcon } from "../../components/Icons/SearchIcon"
 import { v4 as uuidV4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { transactionAction } from "../../store";
 import { useRouter } from "next/router";
-import { useState } from "react";
+
 const options = {
   sortBy: [
     {
@@ -16,12 +16,12 @@ const options = {
   order: [
     {
       id: uuidV4(),
-      name: 'Newest',
+      name: 'Most Recent',
       value: 'desc'
     },
     {
       id: uuidV4(),
-      name: 'Oldest',
+      name: 'Least Recent',
       value: 'asc'
     }
   ]
@@ -31,9 +31,10 @@ const options = {
 export const SearchBar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  
   const handleChange = e => {
     const { name, value } = e.target;
+    
     router.query[name] = value;
     
     dispatch(transactionAction.setQuery(name, value))
@@ -90,6 +91,7 @@ export const SearchBar = () => {
         
         <select
           name="sortBy"
+          value={router.query.sortBy}
           onChange={handleChange}
         >
           {options.sortBy.map((sortByType) => {

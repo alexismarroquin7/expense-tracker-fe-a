@@ -19,23 +19,22 @@ export default function Transactions(){
   const dispatch = useDispatch();
   
   const { user } = useSelector(s => s.auth);
+  
   const transaction = useSelector(s => s.transaction);
+  
   const router = useRouter();
   
   const { 
     active: deleteTransactionModalActive,
     toggle: toggleDeleteTransactionModalActive
   } = useToggle();
+
   const [transactionToDelete, setTransactionToDelete] = useState(initialTransactionToDelete);
-  
-  useEffect(() => {
-    router.push(`/transactions?sortBy=${transaction.queries.sortBy}&dir=${transaction.queries.dir}`)
-  }, [])
 
   useEffect(() => {
     dispatch(transactionAction.findByUserId(user.user_id, {
-      sortBy: router.query.sortBy,
-      dir: router.query.dir
+      sortBy: router.query.sortBy || 'date',
+      dir: router.query.dir || 'desc'
     }));
   }, [dispatch, user.user_id, router.query.sortBy, router.query.dir]);
 
