@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { Form, TextField, Button, Grid } from "../../components"
 import { useForm } from "../../hooks";
@@ -58,8 +59,10 @@ export const LoginForm = () => {
         
         <Button
           type="submit"
-          text="Submit"
+          text="Login"
         />
+
+        <p>Dont have an account? <Link href="/auth/sign-up"><a>Sign Up</a></Link></p>
         
       </Grid>
     </Grid>

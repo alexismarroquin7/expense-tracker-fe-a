@@ -11,6 +11,8 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyles, theme } from "../styles";
 import '../styles/globals.css'
 
+
+
 let persistedState = {};
 
 if(typeof window !== "undefined"){

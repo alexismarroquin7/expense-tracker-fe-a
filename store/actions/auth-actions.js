@@ -5,6 +5,11 @@ const ACTION = {
     START: "AUTH__LOGIN--START",
     SUCCESS: "AUTH__LOGIN--SUCCESS",
     FAIL: "AUTH__LOGIN--FAIL"
+  },
+  LOGOUT: {
+    START: "AUTH__LOGOUT--START",
+    SUCCESS: "AUTH__LOGOUT--SUCCESS",
+    FAIL: "AUTH__LOGOUT--FAIL"
   }
 }
 
@@ -36,7 +41,31 @@ const login = (credentials) => async dispatch => {
   }
 }
 
+const logout = () => async dispatch => {
+  dispatch({
+    type: ACTION.LOGOUT.START
+  })
+  
+  try {
+    dispatch({
+      type: ACTION.LOGOUT.SUCCESS
+    })
+    
+  } catch (err) {
+    dispatch({
+      type: ACTION.LOGOUT.FAIL,
+      payload: {
+        error: {
+          message: err ? err : 'an error occured'
+        }
+      }
+    })
+
+  }
+}
+
 export const authAction = {
   ...ACTION,
-  login
+  login,
+  logout
 }

@@ -54,6 +54,47 @@ export const authReducer = (state = initialState, action) => {
           }
         }
       };
+    
+    case authAction.LOGOUT.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
+    case authAction.LOGOUT.SUCCESS:
+      localStorage.removeItem('token')
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        loggedIn: initialState.loggedIn,
+        user: initialState.user,
+        token: initialState.token
+      };
+    case authAction.LOGOUT.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      };
     default:
       return state;
   }

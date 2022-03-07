@@ -1,5 +1,7 @@
 export * from "./LoginForm"
+export * from "./NavBar"
 export * from "./SearchBar"
+export * from "./SignUp"
 export * from "./Tag"
 export * from "./Transaction"
 export * from "./TransactionForm"
