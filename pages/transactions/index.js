@@ -9,7 +9,7 @@ import { useToggle } from "../../hooks";
 import { transactionAction } from "../../store";
 
 // components
-import { ArrowIcon, Button, FilterListIcon, Grid, Section } from "../../components";
+import { Button, Grid, Section } from "../../components";
 import { SearchBar, Transaction } from "../../widgets";
 
 const initialTransactionToDelete = null;
@@ -20,7 +20,21 @@ export default function Transactions(){
   
   const { user } = useSelector(s => s.auth);
   
-  const transaction = useSelector(s => s.transaction);
+  const transaction = useSelector(s => {
+    let stateToUse = {
+      query: s.transaction.query,
+    }
+
+    if(s.transaction.query.search){
+      const re = new RegExp(s.transaction.query.search, 'i');
+      stateToUse.list = s.transaction.list.filter(trx => re.test(trx.name));
+      
+    } else {
+      stateToUse.list = s.transaction.list;
+    }
+    
+    return stateToUse;
+  });
   
   const router = useRouter();
   
@@ -38,7 +52,7 @@ export default function Transactions(){
     }));
   }, [dispatch, user.user_id, router.query.sortBy, router.query.dir]);
 
-  
+
   return (
   <Section
     gap="1rem"
@@ -119,8 +133,14 @@ export default function Transactions(){
       alignItems="center"
       gap="2rem"
     >
-      {transaction.list.length > 0 && transaction.list.map(tran => (
-        <Transaction
+      <Grid
+        width="100%"
+        justify="flex-start"
+      >
+        {transaction.query.search.length > 0 && <p>results: {transaction.list.length}</p>}
+      </Grid>
+      {transaction.list.length > 0 && transaction.list.map(tran => {
+        return <Transaction
           key={tran.transaction_id}
           transaction={tran}
           toggleDeleteModal={(transaction_id) => {
@@ -128,7 +148,7 @@ export default function Transactions(){
             setTransactionToDelete(transaction_id);
           }}
         />
-      ))}
+      })}
     </Grid>
 
     
