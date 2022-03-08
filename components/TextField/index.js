@@ -14,7 +14,19 @@ const StyledTextField = styled.input.attrs(({
   }
 })`
   width: ${({width}) => width ? width : 'auto'};
-  padding: ${({padding}) => padding ? padding : '0'};
+  padding: ${({padding}) => padding ? padding : '1rem'};
+  border-radius: ${({borderRadius}) => borderRadius ? borderRadius : '5px'};
+  border: ${({border}) => border ? border : '0'};
+  background-color: ${({bgColor, theme}) => bgColor ? bgColor : theme.color.four.value};
+  box-shadow: ${({boxShadow}) => boxShadow ? boxShadow : '0'};
+  
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: ${({color, theme}) => color ? color : 'grey'};
+  }
+  :-ms-input-placeholder {
+    color: ${({color, theme}) => color ? color : 'grey'};
+  }
 `
 
 export const TextField = ({
@@ -27,7 +39,11 @@ export const TextField = ({
   onBlur,
   autoComplete,
   padding,
-  width
+  width,
+  borderRadius,
+  border,
+  bgColor,
+  boxShadow
 }) => {
   return <StyledTextField
     type={type}
@@ -40,5 +56,9 @@ export const TextField = ({
     autoComplete={autoComplete}
     padding={padding}
     width={width}
+    borderRadius={borderRadius}
+    border={border}
+    bgColor={bgColor}
+    boxShadow={boxShadow}
   ></StyledTextField>
 }
