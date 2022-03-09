@@ -26,18 +26,32 @@ const light = {
   type: 'light',
   color: {
     ...sharedColor,
-    primary: {
-      name: "dark_blue",
-      value: "#001730"
+    white: "#fff",
+    black: "#000",
+    one: {
+      name: "light blue",
+      value: "#90CCF4"
     },
-    secondary: {
-      name: "sea_green",
-      value: "#4AD7D1"
-    },
-    terciary: {
+    two: {
       name: "red",
-      value: "#FE4A49"
+      value: "#F78888"
+    },
+    three: {
+      name: "yellow",
+      value: "#F3D250"
+    },
+    four: {
+      name: "grey",
+      value: "#ECECEC"
+    },
+    five: {
+      name: "green",
+      value: "#70cc70"
     }
+  },
+  boxShadow: {
+    primary: "0px 10px 13px -7px #000000",
+    secondary: "0px 10px 5px -7px #000000"
   }
 };
 

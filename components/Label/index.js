@@ -10,7 +10,8 @@ const StyledLabel = styled.label`
   justify-content: ${({justify}) => justify ? justify : 'flex-start'};
   align-items: ${({alignItems}) => alignItems ? alignItems : 'flex-start'};
   gap: ${({gap}) => gap ? gap : '0'};
-
+  
+  width: ${({width}) => width ? width : 'auto'};
 `
 
 export const Label = (props) => {

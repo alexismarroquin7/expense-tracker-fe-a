@@ -1,27 +1,18 @@
 import styled from "styled-components"
-
+import Image from "next/image";
 const StyledSearchIcon = styled.div`
   border: ${({border}) => border ? border : '0'};
   width: ${({width}) => width ? width : 'auto'};
+  height: ${({height}) => height ? height : 'auto'};
   display: flex;
   flex-flow: column wrap;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  
-  .search_icon__circle {
-    border: .3rem solid black;
-    border-radius: 100%;
-    padding: .75rem;
-  }
+  border: 0;
 
-  .search_icon__stem {
-    border: .2rem solid black;
-    background-color: black;
-    width: 1rem;
-    transform-origin: top right;
-    transform: rotate(45deg) translate(.7rem, -.3rem);
-  }
+  background-color: ${({bgColor, theme}) => bgColor ? bgColor : theme.color.four.value};
+  border-radius: 5px;
 
   button {
     opacity: 0;
@@ -43,13 +34,14 @@ export const SearchIcon = ({
   >
     <button
       type={type ? type : "submit"}
-    ></button>
-    <div
-      className="search_icon__circle"
-      ></div>
-    <div
-      className="search_icon__stem"
-    ></div>
+    >
+    </button>
+    <Image 
+      src="https://img.icons8.com/ios/24/000000/search--v1.png"
+      alt="search icon"
+      width="20px"
+      height="20px"
+    />
   </StyledSearchIcon>
   )
 }

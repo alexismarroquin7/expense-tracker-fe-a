@@ -1,7 +1,7 @@
 
 // hooks
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggle } from "../../hooks";
 
@@ -9,8 +9,9 @@ import { useToggle } from "../../hooks";
 import { transactionAction } from "../../store";
 
 // components
-import { Button, Grid, Section } from "../../components";
+import { Border, Button, Grid, Section } from "../../components";
 import { SearchBar, Transaction } from "../../widgets";
+import { useTheme } from "styled-components";
 
 const initialTransactionToDelete = null;
 
@@ -52,9 +53,11 @@ export default function Transactions(){
     }));
   }, [dispatch, user.user_id, router.query.sortBy, router.query.dir]);
 
+  const theme = useTheme();
 
   return (
   <Section
+    bgColor={theme.color.white.value}
     gap="1rem"
   >
     <Grid
@@ -62,12 +65,14 @@ export default function Transactions(){
       justify="space-between"
       alignItems="center"
     >
-      <h3>Transactions</h3>
-      <button
+      <h4>Transactions</h4>
+      <Button
         onClick={() => {
           router.push('/transactions/new');
         }}
-      >New</button>
+        text="New"
+        boxShadow={theme.boxShadow.secondary}
+      />
     </Grid>
 
     <SearchBar/>
@@ -131,7 +136,6 @@ export default function Transactions(){
       width="90%"
       direction="column wrap"
       alignItems="center"
-      gap="2rem"
     >
       <Grid
         width="100%"
@@ -139,16 +143,26 @@ export default function Transactions(){
       >
         {transaction.query.search.length > 0 && <p>results: {transaction.list.length}</p>}
       </Grid>
-      {transaction.list.length > 0 && transaction.list.map(tran => {
-        return <Transaction
+      {transaction.list.length > 0 && transaction.list.map((tran, i, arr) => {
+        return (
+        <React.Fragment
           key={tran.transaction_id}
-          transaction={tran}
-          toggleDeleteModal={(transaction_id) => {
-            toggleDeleteTransactionModalActive();
-            setTransactionToDelete(transaction_id);
-          }}
-        />
-      })}
+        >
+          
+          <Border
+            bgColor={theme.color.black}
+          />
+          
+          <Transaction
+            transaction={tran}
+            toggleDeleteModal={(transaction_id) => {
+              toggleDeleteTransactionModalActive();
+              setTransactionToDelete(transaction_id);
+            }}
+          />
+          
+        </React.Fragment>
+      )})}
     </Grid>
 
     

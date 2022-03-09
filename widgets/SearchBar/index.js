@@ -114,6 +114,7 @@ export const SearchBar = () => {
 
   return (
   <Grid
+    padding="2rem 0"
     direction="column wrap"
     gap="2rem"
   >
@@ -126,7 +127,7 @@ export const SearchBar = () => {
         alignItems="center"
       >
         <TextField
-          width="90%"
+          width="85%"
           padding="1rem"
           placeholder="Search by name"
           name="search"
@@ -136,6 +137,7 @@ export const SearchBar = () => {
         />
         <SearchIcon
           width={"10%"}
+          height={"1rem"}
           border="1px solid black"
           onClick={handleSubmit}
         />

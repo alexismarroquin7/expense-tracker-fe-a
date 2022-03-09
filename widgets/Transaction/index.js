@@ -1,7 +1,8 @@
-import { Button, Grid } from "../../components";
+import { Border, Button, Grid } from "../../components";
 import { useToggle } from "../../hooks";
 import { Tag } from "..";
 import { useRouter } from "next/router";
+import { useTheme } from "styled-components";
 
 export const Transaction = ({ transaction, toggleDeleteModal }) => {
   const {
@@ -16,11 +17,11 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
     toggleOpen();
   }
 
+  const theme = useTheme();
+
   return (
   <Grid
-    border=".2rem solid black"
-    borderRadius="10px"
-    padding="2rem"
+    padding="2rem 0rem"
     width="100%"
     gap="1rem"
   >  
@@ -45,9 +46,12 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
       
       
 
-      <button
+      <Button
         onClick={handleOpen}
-      >{open ? '-' : '+'}</button>
+        padding=".5rem 1rem"
+        text={open ? '-' : '+'}
+        bgColor={theme.color.four.value}
+      />
     
     </Grid>
 
@@ -80,21 +84,17 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
       justify="space-between"
     >
     
-      <div
-        style={{
-          transition: ".5s",
-          width: open 
-          ? '100%'
-          : '5%',
-          padding: ".2rem",
-          backgroundColor: /deposit/i.test(transaction.transaction_type.name)
+      <Border
+
+        transition=".5s"
+        width={open ? '100%' : '5%'}
+        padding=".2rem"
+        bgColor={
+          /deposit/i.test(transaction.transaction_type.name)
           ? 'green'
           : 'red'
-        }}
-      ></div>
-
-      
-    
+        }
+      />
     </Grid>
     
     {
@@ -108,7 +108,7 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
           transition=".5s"
 
         >
-
+          
           <Grid
             width="100%"
             gap="1rem"
@@ -161,12 +161,14 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
               onClick={() => {
                 router.push(`/transactions/${transaction.transaction_id}/edit`)
               }}
+              boxShadow={theme.boxShadow.secondary}
             />
             <Button
               text="Delete"
               onClick={() => {
                 toggleDeleteModal(transaction.transaction_id);
               }}
+              boxShadow={theme.boxShadow.secondary}
             />
           </Grid>
 
