@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggle } from "../../hooks";
+import { useTheme } from "styled-components";
 
 // store
 import { transactionAction } from "../../store";
@@ -11,7 +12,6 @@ import { transactionAction } from "../../store";
 // components
 import { Border, Button, Grid, Section } from "../../components";
 import { SearchBar, Transaction } from "../../widgets";
-import { useTheme } from "styled-components";
 
 const initialTransactionToDelete = null;
 
@@ -33,7 +33,6 @@ export default function Transactions(){
     } else {
       stateToUse.list = s.transaction.list;
     }
-    
     return stateToUse;
   });
   
@@ -143,7 +142,7 @@ export default function Transactions(){
       >
         {transaction.query.search.length > 0 && <p>results: {transaction.list.length}</p>}
       </Grid>
-      {transaction.list.length > 0 && transaction.list.map((tran, i, arr) => {
+      {transaction.list.length > 0 && transaction.list.map((tran) => {
         return (
         <React.Fragment
           key={tran.transaction_id}
