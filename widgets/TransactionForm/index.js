@@ -2,17 +2,17 @@ import { Grid, Label, Border, DateInput, TextField, TextArea, Button } from "../
 import { v4 as uuidv4 } from "uuid";
 
 import { transactionForm } from "../../utils";
+import { useTheme } from "styled-components";
 
 export const TransactionForm = ({
   initialValues,
   values,
   setValues,
-  options,
   onChange,
   onSubmit,
   actionArea: ActionArea
 }) => {
-  
+  const theme = useTheme();  
   return (
   <form
     onSubmit={onSubmit}
@@ -20,7 +20,7 @@ export const TransactionForm = ({
     <Grid
       width="50vw"
       border=".2rem solid black"
-      borderRadius="10px"
+      borderRadius={theme.borderRadius.primary}
       direction="column wrap"
       padding="2rem"
       gap="2rem"
@@ -193,7 +193,7 @@ export const TransactionForm = ({
               key={uuidv4()}
               border="1px solid black"
               padding=".5rem 1rem"
-              borderRadius="10px"
+              borderRadius={theme.borderRadius.primary}
               gap="1rem"
             >
               <p>{tag.text}</p>

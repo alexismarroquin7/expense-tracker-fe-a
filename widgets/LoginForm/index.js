@@ -35,7 +35,7 @@ export const LoginForm = () => {
   <Form
     onSubmit={handleSubmit}
     boxShadow={theme.boxShadow.primary}
-    borderRadius="5px"
+    borderRadius={theme.borderRadius.primary}
     padding="2rem"
     bgColor={theme.color.white}
   >

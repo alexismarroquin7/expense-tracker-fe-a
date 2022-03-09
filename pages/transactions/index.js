@@ -95,7 +95,7 @@ export default function Transactions(){
           gap="2rem"
           border="1px solid black"
           padding="2rem"
-          borderRadius="10px"
+          borderRadius={theme.borderRadius.primary}
           bgColor="white"
           boxShadow="0px 2px 5rem black"
         >

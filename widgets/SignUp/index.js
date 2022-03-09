@@ -1,7 +1,9 @@
 import { useForm } from "../../hooks";
 
-import { Grid, TextField, Button } from "../../components";
+
+import { Form, Grid, TextField, Button } from "../../components";
 import Link from "next/link"
+import { useTheme } from "styled-components";
 
 const initialFormValues = {
   email: ''
@@ -13,8 +15,19 @@ export const SignUpForm = () => {
     handleChange,
     clear
   } = useForm(initialFormValues);
+  
+  const handleSubmit = e => {
+    e.preventDefault();
+  }
+
+  const theme = useTheme();
+
   return (
-  <form>
+  <Form
+    // borderRadius={theme}
+    bgColor={theme.color.white}
+    onSubmit={handleSubmit}
+  >
     <Grid
       direction="column wrap"
       alignItems="center"
@@ -47,7 +60,7 @@ export const SignUpForm = () => {
         
       </Grid>
     </Grid>
-  </form>
+  </Form>
   )
 
 }
