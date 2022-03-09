@@ -64,31 +64,30 @@ export const SearchBar = () => {
     dispatch(transactionAction.setQuery({
       search: router.query.search 
       ? router.query.search
-      : '',
+      : search,
       sortBy: router.query.sortBy 
       ? router.query.sortBy
       : '',
       dir: router.query.dir
       ? router.query.dir
       : ''
-    }))    
-  }, [dispatch, router, router.query.search, router.query.sortBy, router.query.dir])
+    }))
+    console.log('🏀')
+  }, [dispatch, search, router.query.search, router.query.sortBy, router.query.dir])
 
   useEffect(() => {
-    setSearch(router.query.search)
+    setSearch(() => router.query.search ? router.query.search : '')
   }, [router.query.search])
   
   const handleChange = e => {
     const { name, value } = e.target;
     
-    if(name==='search'){
+    if(name === 'search'){
       setSearch(value)
     } else {
       router.query[name] = value;
-        dispatch(transactionAction.setQuery({
-        search: router.query.search 
-        ? router.query.search
-        : '',
+      dispatch(transactionAction.setQuery({
+        search,
         sortBy: router.query.sortBy 
         ? router.query.sortBy
         : '',
@@ -108,6 +107,8 @@ export const SearchBar = () => {
     e.preventDefault();
     router.query.search = search.replace(' ', '+')
 
+    dispatch(transactionAction.setQuery(router.query));
+    
     const queryToUse = createQuery(router.query);
     router.push(`/transactions${queryToUse.length > 1 ? queryToUse : ''}`);
   }
