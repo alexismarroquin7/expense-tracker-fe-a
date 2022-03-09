@@ -43,6 +43,10 @@ const light = {
     four: {
       name: "grey",
       value: "#ECECEC"
+    },
+    five: {
+      name: "green",
+      value: "#70cc70"
     }
   },
   boxShadow: {

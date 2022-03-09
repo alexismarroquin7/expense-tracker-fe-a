@@ -74,6 +74,7 @@ export const LoginForm = () => {
               onChange={handleChange}
               placeholder="Email"
               width="100%"  
+              autoComplete="off"
             />
           </Label>
           
@@ -89,6 +90,7 @@ export const LoginForm = () => {
               onChange={handleChange}
               placeholder="Password"
               width="100%" 
+              autoComplete="off"
             />
           </Label>
 
