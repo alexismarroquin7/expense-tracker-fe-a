@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Button, Grid } from "../../components"
 import { authAction } from "../../store";
@@ -13,10 +14,16 @@ export const NavBar = () => {
     dispatch(authAction.logout());
   }
 
+  useEffect(() => {
+    if(!loggedIn){
+      router.push('/auth/login')
+    }
+  }, [router, loggedIn]);
+
   return (
   <nav>
     <Grid
-      width="100%"
+      width="100vw"
       direction="column wrap"
       alignItems="center"
     >
@@ -29,7 +36,6 @@ export const NavBar = () => {
         <h6>My Expense Tracker</h6>
 
         <Grid
-          border="1px solid red"
           gap="2rem"
         >
 

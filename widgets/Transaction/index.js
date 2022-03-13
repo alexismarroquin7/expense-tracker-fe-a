@@ -136,7 +136,7 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
             <Grid
               width="100%"
               padding={`${transaction.tags.length > 0 ? "1rem" : "2rem"}`}
-              borderRadius="10px"
+              borderRadius={theme.borderRadius.primary}
               bgColor="#E0E0E0"
               gap="1rem"
             > 

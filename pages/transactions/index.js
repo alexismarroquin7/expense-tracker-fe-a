@@ -11,7 +11,7 @@ import { transactionAction } from "../../store";
 
 // components
 import { Border, Button, Grid, Section } from "../../components";
-import { SearchBar, Transaction } from "../../widgets";
+import { NavBar, SearchBar, Transaction } from "../../widgets";
 
 const initialTransactionToDelete = null;
 
@@ -58,7 +58,9 @@ export default function Transactions(){
   <Section
     bgColor={theme.color.white.value}
     gap="1rem"
+    padding="0"
   >
+    <NavBar/>
     <Grid
       width="90%"
       justify="space-between"
@@ -70,7 +72,6 @@ export default function Transactions(){
           router.push('/transactions/new');
         }}
         text="New"
-        boxShadow={theme.boxShadow.secondary}
       />
     </Grid>
 
@@ -79,7 +80,6 @@ export default function Transactions(){
     {/* delete transaction modal */}
     {deleteTransactionModalActive && (
       <Grid
-        border="1px solid red"
         position="fixed"
         zIndex="50"
         width="100%"
@@ -90,16 +90,19 @@ export default function Transactions(){
       >
         
         <Grid
+          width="90%"
           direction="column wrap"
           alignItems="center"
           gap="2rem"
-          border="1px solid black"
+          border=".2rem solid black"
           padding="2rem"
-          borderRadius="10px"
-          bgColor="white"
-          boxShadow="0px 2px 5rem black"
+          borderRadius={theme.borderRadius.primary}
+          bgColor={theme.color.white}
+          boxShadow={theme.boxShadow.primary}
         >
-          <h6>Delete transaction?</h6>
+
+          <h6>Are you sure you want to delete this transaction?</h6>
+
         
           <Grid
             direction="column wrap"
@@ -142,6 +145,16 @@ export default function Transactions(){
       >
         {transaction.query.search.length > 0 && <p>results: {transaction.list.length}</p>}
       </Grid>
+      {transaction.list.length === 0 && (
+        <Grid
+          direction="column wrap"
+          alignItems="center"
+          gap="2rem"
+        >
+        <p>No transctions added yet...</p>
+        <p>Click or tap {'"New"'} to start keeping track of earnings and expenses.</p>
+        </Grid>
+      )}
       {transaction.list.length > 0 && transaction.list.map((tran) => {
         return (
         <React.Fragment

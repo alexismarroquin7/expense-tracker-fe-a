@@ -7,7 +7,7 @@ const sharedColor = {
 
 const sharedTheme = {
   borderRadius: {
-    primary: "10px"
+    primary: "5px"
   },
   padding: {
     primary: "1rem"
@@ -18,6 +18,10 @@ const sharedTheme = {
   },
   transition: {
     primary: `all 0.2s ease`
+  },
+  boxShadow: {
+    primary: "0px 10px 13px -7px #000000",
+    secondary: "0px 10px 5px -7px #000000"
   }
 } 
 
@@ -26,8 +30,6 @@ const light = {
   type: 'light',
   color: {
     ...sharedColor,
-    white: "#fff",
-    black: "#000",
     one: {
       name: "light blue",
       value: "#90CCF4"
@@ -48,10 +50,6 @@ const light = {
       name: "green",
       value: "#70cc70"
     }
-  },
-  boxShadow: {
-    primary: "0px 10px 13px -7px #000000",
-    secondary: "0px 10px 5px -7px #000000"
   }
 };
 

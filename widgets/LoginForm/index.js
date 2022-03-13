@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { useEffect, useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "styled-components";
 import { Form, TextField, Button, Grid, Label } from "../../components"
 import { useForm, useToggle } from "../../hooks";
@@ -12,7 +14,8 @@ const initialFormValues = {
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  
+  const auth = useSelector(s=>s.auth);
+
   const {
     values: credentials,
     handleChange,
@@ -28,6 +31,14 @@ export const LoginForm = () => {
     dispatch(authAction.login(credentials));
     clear();
   }
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if(auth.loggedIn){
+      router.push(`/transactions`)
+    }
+  }, [router, auth.loggedIn])
   
   const theme = useTheme();
   
@@ -35,7 +46,7 @@ export const LoginForm = () => {
   <Form
     onSubmit={handleSubmit}
     boxShadow={theme.boxShadow.primary}
-    borderRadius="5px"
+    borderRadius={theme.borderRadius.primary}
     padding="2rem"
     bgColor={theme.color.white}
   >

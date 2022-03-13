@@ -9,7 +9,8 @@ const initialState = {
   },
   user: {},
   token: '',
-  loggedIn: false
+  loggedIn: false,
+  requestedSignUp: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -95,6 +96,95 @@ export const authReducer = (state = initialState, action) => {
           }
         }
       };
+    
+    case authAction.SIGN_UP.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        loggedIn: false,
+        resquestedSignUp: false
+      };
+    case authAction.SIGN_UP.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        user: action.payload.user,
+        loggedIn: true
+      };
+    case authAction.SIGN_UP.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        },
+        loggedIn: false
+      };
+    
+    case authAction.REQUEST_SIGN_UP.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        },
+        requestedSignUp: false
+      };
+    case authAction.REQUEST_SIGN_UP.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        },
+        requestedSignUp: true
+      };
+    case authAction.REQUEST_SIGN_UP.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+
+        },
+        requestedSignUp: false
+      };
+
+    case authAction.REQUEST_SIGN_UP.RESET:
+      return {
+        ...state,
+        requestedSignUp: false
+      }
+
     default:
       return state;
   }

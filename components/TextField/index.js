@@ -22,10 +22,10 @@ const StyledTextField = styled.input.attrs(({
   
   ::placeholder,
   ::-webkit-input-placeholder {
-    color: ${({color, theme}) => color ? color : 'grey'};
+    color: ${({color}) => color ? color : 'grey'};
   }
   :-ms-input-placeholder {
-    color: ${({color, theme}) => color ? color : 'grey'};
+    color: ${({color}) => color ? color : 'grey'};
   }
 `
 
