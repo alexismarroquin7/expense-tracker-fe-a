@@ -6,6 +6,7 @@ const StyledForm = styled.form`
   padding: ${({padding}) => padding ? padding : '0'};
   background-color: ${({bgColor}) => bgColor ? bgColor : 'auto'};
   box-shadow: ${({boxShadow}) => boxShadow ? boxShadow : '0'};
+  width: ${({width}) => width ? width : 'auto'};
 `
 
 export const Form = (props) => {
