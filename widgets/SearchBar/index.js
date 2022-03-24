@@ -1,10 +1,17 @@
-import { Grid, TextField } from "../../components"
-import { SearchIcon } from "../../components/Icons/SearchIcon"
+
 import { v4 as uuidV4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { transactionAction } from "../../store";
-import { useRouter } from "next/router";
+
+// components
+import { Grid, Select, TextField, MenuItem, SearchIcon } from "../../components"
+
+// hooks
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useToggle } from "../../hooks"
+
+// store
+import { transactionAction } from "../../store";
 
 const options = {
   sortBy: [
@@ -60,6 +67,9 @@ export const SearchBar = () => {
 
   const [search, setSearch] = useState(() => transaction.query.search ? transaction.query.search.replace('+', ' ') : '');
   
+  const { active: sortByOpen, toggle: sortByToggle } = useToggle();
+  const { active: orderOpen, toggle: orderToggle } = useToggle();
+
   useEffect(() => {
     dispatch(transactionAction.setQuery({
       search: router.query.search 
@@ -72,7 +82,6 @@ export const SearchBar = () => {
       ? router.query.dir
       : ''
     }))
-    console.log('🏀')
   }, [dispatch, search, router.query.search, router.query.sortBy, router.query.dir])
 
   useEffect(() => {
@@ -81,7 +90,7 @@ export const SearchBar = () => {
   
   const handleChange = e => {
     const { name, value } = e.target;
-    
+
     if(name === 'search'){
       setSearch(value)
     } else {
@@ -157,22 +166,32 @@ export const SearchBar = () => {
         alignItems="center"
         gap="1rem"
       >
-        <p>Sort By:</p>
         
-        <select
-          name="sortBy"
-          value={transaction.query.sortBy}
-          onChange={handleChange}
+        <Select
+          label="Sort By"
+          open={sortByOpen}
+          toggleOpen={sortByToggle}
+          value={transaction.query.sortBy ? options.sortBy.filter(opt => opt.value === transaction.query.sortBy)[0].name : ''}
         >
           {options.sortBy.map((sortByType) => {
             return (
-            <option
+            <MenuItem
               key={sortByType.id}
               value={sortByType.value}
-            >{sortByType.name}</option>
+              toggleOpen={sortByToggle}
+              onClick={() => {
+                handleChange({
+                  target: {
+                    name: 'sortBy',
+                    value: sortByType.value
+                  }
+                })
+              }}
+            >{sortByType.name}</MenuItem>
             )
           })}
-        </select>
+        </Select>
+
       </Grid>
 
 
@@ -181,21 +200,31 @@ export const SearchBar = () => {
         alignItems="center"
         gap="1rem"
       >
-        <p>Order:</p>
-        <select
-          name={"dir"}
-          value={transaction.query.dir}
-          onChange={handleChange}
+        <Select
+          label="Order"
+          open={orderOpen}
+          toggleOpen={orderToggle}
+          value={transaction.query.dir ? options.order.filter(opt => opt.value === transaction.query.dir)[0].name : ''}
         >
-          {options.order.map(orderType => {
+          {options.order.map((orderType) => {
             return (
-            <option
+            <MenuItem
               key={orderType.id}
               value={orderType.value}
-            >{orderType.name}</option>
+              toggleOpen={orderToggle}
+              onClick={() => {
+                handleChange({
+                  target: {
+                    name: 'dir',
+                    value: orderType.value
+                  }
+                })
+              }}
+            >{orderType.name}</MenuItem>
             )
           })}
-        </select>  
+        </Select>
+        
       </Grid>
 
     </Grid>
