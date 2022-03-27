@@ -1,51 +1,56 @@
 import styled from "styled-components"
 
 const StyledSelect = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  background-color: ${({bgColor}) => bgColor ? bgColor : 'auto'};
 
+  .StyledSelect__container {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 1rem;
+    border: 1px solid black;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+  }
+
+  .StyledSelect__label__container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    gap: 1rem;
+    border-radius: 20px;
+  }
+
+  .StyledSelect__value__container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
 `
 
 export const Select = (props) => {
   return (
     <StyledSelect
-      style={{
-        display: "flex",
-        flexFlow: "column wrap",
-        alignItems: "center"
-      }}
+      {...props}
     >
       <div
-        style={{
-          display: "flex",
-          flexFlow: "column wrap",
-          gap: "1rem",
-          border: "1px solid black",
-          padding: ".5rem 1rem",
-          borderRadius: "5px"
-        }}
+        className="StyledSelect__container"
         onClick={() => {
           props.toggleOpen();
         }}
       >
         <div
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center",
-
-            gap: "1rem",
-            borderRadius: "20px"
-          }}
+          className="StyledSelect__label__container"
         >
           {props.label ? <p>{props.label}</p> : ""}
           <p>V</p>
         </div>
 
         <div
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center"
-          }}
+          className="StyledSelect__value__container"
         >
           {props.value ? <p>{props.value}</p> : ""}
         </div>

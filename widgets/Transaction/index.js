@@ -161,14 +161,14 @@ export const Transaction = ({ transaction, toggleDeleteModal }) => {
               onClick={() => {
                 router.push(`/transactions/${transaction.transaction_id}/edit`)
               }}
-              boxShadow={theme.boxShadow.secondary}
+              
             />
             <Button
               text="Delete"
               onClick={() => {
                 toggleDeleteModal(transaction.transaction_id);
               }}
-              boxShadow={theme.boxShadow.secondary}
+              
             />
           </Grid>
 

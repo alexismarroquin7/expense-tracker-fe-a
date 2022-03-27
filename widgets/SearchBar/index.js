@@ -8,7 +8,8 @@ import { Grid, Select, TextField, MenuItem, SearchIcon } from "../../components"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { useToggle } from "../../hooks"
+import { useToggle } from "../../hooks";
+import { useTheme } from "styled-components";
 
 // store
 import { transactionAction } from "../../store";
@@ -24,12 +25,12 @@ const options = {
   order: [
     {
       id: uuidV4(),
-      name: 'Most Recent',
+      name: 'Newest To Oldest',
       value: 'desc'
     },
     {
       id: uuidV4(),
-      name: 'Least Recent',
+      name: 'Oldest To Newest',
       value: 'asc'
     }
   ]
@@ -69,6 +70,8 @@ export const SearchBar = () => {
   
   const { active: sortByOpen, toggle: sortByToggle } = useToggle();
   const { active: orderOpen, toggle: orderToggle } = useToggle();
+
+  const theme = useTheme();
 
   useEffect(() => {
     dispatch(transactionAction.setQuery({
@@ -157,7 +160,7 @@ export const SearchBar = () => {
     <Grid
       width="100%"
       justify="center"
-      alignItems="center"
+      alignItems="flex-start"
       gap="1rem"
     >
 
@@ -172,6 +175,8 @@ export const SearchBar = () => {
           open={sortByOpen}
           toggleOpen={sortByToggle}
           value={transaction.query.sortBy ? options.sortBy.filter(opt => opt.value === transaction.query.sortBy)[0].name : ''}
+          bgColor={theme.color.four.value}
+        
         >
           {options.sortBy.map((sortByType) => {
             return (
@@ -205,6 +210,7 @@ export const SearchBar = () => {
           open={orderOpen}
           toggleOpen={orderToggle}
           value={transaction.query.dir ? options.order.filter(opt => opt.value === transaction.query.dir)[0].name : ''}
+          bgColor={theme.color.four.value}
         >
           {options.order.map((orderType) => {
             return (
